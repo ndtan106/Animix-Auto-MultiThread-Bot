@@ -144,9 +144,7 @@ const mergePetIds = async (headers, proxy) => {
     } else {
         log.info("oho so sad, no mythic pets to merge 😢💔");
     }
-    log.info(moms); 
-    log.info(dads); 
-    return;
+
     while (moms.length > 1) {
         
         const momIndex = Math.floor(Math.random() * moms.length);
