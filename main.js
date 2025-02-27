@@ -122,7 +122,7 @@ const mergePetIds = async (headers, proxy) => {
     const moms = [...petIds.momPetIds];
     const dads = [...petIds.dadPetIds];
     const mythDadIds = [125];
-    const mythMomIds = [124, 121, 122];
+    const mythMomIds = [124, 121, 122,199];
 
     const mythMoms = moms.filter(mom => mythMomIds.includes(mom));
     const mythDads = dads.filter(dad => mythDadIds.includes(dad));
@@ -144,8 +144,11 @@ const mergePetIds = async (headers, proxy) => {
     } else {
         log.info("oho so sad, no mythic pets to merge 😢💔");
     }
-
+    log.info(moms); 
+    log.info(dads); 
+    return;
     while (moms.length > 1) {
+        
         const momIndex = Math.floor(Math.random() * moms.length);
         const nextMomIndex = Math.floor(Math.random() * moms.length);
         const dadIndex = Math.floor(Math.random() * dads.length);
@@ -156,15 +159,15 @@ const mergePetIds = async (headers, proxy) => {
 
         if (momIndex === nextMomIndex) continue;
 
-        if ([124, 121, 122, 199, 125].includes(mom)) {
+        if (mythDadIds.includes(dad)) {
             dads.splice(dadIndex, 1);
             continue;
         } else {
-            if ([124, 121, 122, 199].includes(mom)) {
+            if (mythMomIds.includes(mom)) {
                 log.info(`Skipping merge Dragon, Phoenix, or Unicorn.`);
                 moms.splice(momIndex, 1);
                 continue;
-            } else if ([124, 121, 122, 199].includes(nextMom)) {
+            } else if (mythMomIds.includes(nextMom)) {
                 log.info(`Skipping merge Dragon, Phoenix, or Unicorn.`);
                 moms.splice(nextMomIndex, 1);
                 continue;
@@ -343,6 +346,7 @@ async function startMission() {
         log.info("Fetching pet mom and dad can indehoy!❤️");
         await mergePetIds(headers, proxy);
         await delay(1);
+        
         try {
             const missionLists = await fetchMissionList(headers, proxy);
 
